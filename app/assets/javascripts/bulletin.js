@@ -12,10 +12,23 @@ bulletinApp.controller('PostsCtrl', ['$scope', 'Post', function($scope, Post) {
       console.log("Error: " + response.status);
     });
   };
+
+  $scope.createComment = function() {
+    PostComment.save($scope.newComment, function(resource) {
+      console.log(resource);
+      $scope.newComment = {}
+    }, function(response) {
+      console.log("Error: " + response.status);
+    });
+  }
 }]);
 
 bulletinApp.factory('Post', ['$resource', function($resource) {
   return $resource('/posts');
+}]);
+
+bulletinApp.factory('PostComment', ['$resource', function($resource) {
+  return $resource('/posts/:post_id/comments/:id');
 }]);
 
 bulletinApp.filter('titleize', function() {
